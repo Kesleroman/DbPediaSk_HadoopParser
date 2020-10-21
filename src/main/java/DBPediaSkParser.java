@@ -2,8 +2,12 @@ import java.io.IOException;
 import java.util.Iterator;
 import java.util.StringTokenizer;
 
-import avro.DbPage;
-import org.apache.hadoop.conf.Configuration;
+import org.apache.avro.Schema;
+import org.apache.avro.mapred.AvroKey;
+import org.apache.avro.mapred.AvroValue;
+import org.apache.avro.mapreduce.AvroJob;
+import org.apache.avro.mapreduce.AvroKeyValueOutputFormat;
+import org.apache.hadoop.conf.Configured;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.Text;
@@ -12,10 +16,13 @@ import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.mapreduce.Reducer;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
+import org.apache.hadoop.util.Tool;
+import org.apache.hadoop.util.ToolRunner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class DBPediaSkParser {
+
+public class DBPediaSkParser extends Configured implements Tool {
 
     public static class TokenizerMapper extends Mapper<Object, Text, Text, IntWritable>{
 
@@ -51,11 +58,12 @@ public class DBPediaSkParser {
         }
     }
 
-    public static class IdReducer extends Reducer<Text,IntWritable,Text,IntWritable> {
+        public static class IdReducer extends Reducer<Text,IntWritable, AvroKey<CharSequence>, AvroValue<Integer>> {
 
         private static Logger logger = LoggerFactory.getLogger(IdReducer.class);
         private IntWritable result = new IntWritable();
 
+        @Override
         public void reduce(Text key, Iterable<IntWritable> values, Context context)
                 throws IOException, InterruptedException {
 
@@ -69,38 +77,41 @@ public class DBPediaSkParser {
             logger.info("Reducing: " + key);
             result = itr.next();
 
-            key = new Text(key.toString().trim());
-            context.write(key, result);
+            AvroKey<CharSequence> avroKey = new AvroKey<CharSequence>(key.toString());
+            AvroValue<Integer> avroValue = new AvroValue<Integer>(result.get());
+            context.write(avroKey, avroValue);
 
             if(itr.hasNext())
                 logger.warn("There are several values for the key " + key);
         }
     }
 
-    public static void main(String[] args) throws Exception {
-        Configuration conf = new Configuration();
+    public int run(String[] args) throws Exception {
+        if (args.length != 2) {
+            System.err.println("Usage: MapReduceColorCount <input path> <output path>");
+            return -1;
+        }
 
-        Job job = Job.getInstance(conf, "DBPedia SK parsing");
+        Job job = Job.getInstance(getConf(), "DbPedia parser");
         job.setJarByClass(DBPediaSkParser.class);
+
+        FileInputFormat.setInputPaths(job, new Path(args[0]));
+        FileOutputFormat.setOutputPath(job, new Path(args[1]));
+
         job.setMapperClass(TokenizerMapper.class);
-        job.setCombinerClass(IdReducer.class);
+        job.setMapOutputKeyClass(Text.class);
+        job.setMapOutputValueClass(IntWritable.class);
+
+        job.setOutputFormatClass(AvroKeyValueOutputFormat.class);
         job.setReducerClass(IdReducer.class);
-        job.setOutputKeyClass(Text.class);
-        job.setOutputValueClass(IntWritable.class);
+        AvroJob.setOutputKeySchema(job, Schema.create(Schema.Type.STRING));
+        AvroJob.setOutputValueSchema(job, Schema.create(Schema.Type.INT));
 
-        Path inputFile = new Path(args[0]);
-        Path outputFile = new Path(args[1]);
-        FileInputFormat.addInputPath(job, inputFile);
-        FileOutputFormat.setOutputPath(job, outputFile);
-
-        int result = job.waitForCompletion(true) ? 0 : 1;
-
-        parseOutputAndStoreAvro(outputFile);
-
-        System.exit(result);
+        return (job.waitForCompletion(true) ? 0 : 1);
     }
 
-    private static void parseOutputAndStoreAvro(Path outputFile){
-        DbPage dbPage = new DbPage();
+    public static void main(String[] args) throws Exception {
+        int res = ToolRunner.run(new DBPediaSkParser(), args);
+        System.exit(res);
     }
 }
