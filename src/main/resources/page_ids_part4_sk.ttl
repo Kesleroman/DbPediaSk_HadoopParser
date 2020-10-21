@@ -1,0 +1,6 @@
+<http://sk.dbpedia.org/resource/Internet> <http://dbpedia.org/ontology/wikiPageID> "886"^^<http://www.w3.org/2001/XMLSchema#integer> .
+<http://sk.dbpedia.org/resource/Maďarsko> <http://dbpedia.org/ontology/wikiPageID> "687"^^<http://www.w3.org/2001/XMLSchema#integer> .
+<http://sk.dbpedia.org/resource/Egypt> <http://dbpedia.org/ontology/wikiPageID> "890"^^<http://www.w3.org/2001/XMLSchema#integer> .
+<http://sk.dbpedia.org/resource/Nemecko> <http://dbpedia.org/ontology/wikiPageID> "688"^^<http://www.w3.org/2001/XMLSchema#integer> .
+<http://sk.dbpedia.org/resource/Česko> <http://dbpedia.org/ontology/wikiPageID> "703"^^<http://www.w3.org/2001/XMLSchema#integer> .
+<http://sk.dbpedia.org/resource/Slovensko> <http://dbpedia.org/ontology/wikiPageID> "686"^^<http://www.w3.org/2001/XMLSchema#integer> .

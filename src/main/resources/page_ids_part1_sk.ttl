@@ -1,0 +1,7 @@
+<http://sk.dbpedia.org/resource/Main_Page> <http://dbpedia.org/ontology/wikiPageID> "200"^^<http://www.w3.org/2001/XMLSchema#integer> .
+<http://sk.dbpedia.org/resource/Hlavná_stránka> <http://dbpedia.org/ontology/wikiPageID> "100"^^<http://www.w3.org/2001/XMLSchema#integer> .
+<http://sk.dbpedia.org/resource/Literatúra> <http://dbpedia.org/ontology/wikiPageID> "609"^^<http://www.w3.org/2001/XMLSchema#integer> .
+<http://sk.dbpedia.org/resource/Fyzika> <http://dbpedia.org/ontology/wikiPageID> "611"^^<http://www.w3.org/2001/XMLSchema#integer> .
+<http://sk.dbpedia.org/resource/Matematika> <http://dbpedia.org/ontology/wikiPageID> "605"^^<http://www.w3.org/2001/XMLSchema#integer> .
+<http://sk.dbpedia.org/resource/Zoznam_štátov> <http://dbpedia.org/ontology/wikiPageID> "612"^^<http://www.w3.org/2001/XMLSchema#integer> .
+<http://sk.dbpedia.org/resource/Isaac_Newton> <http://dbpedia.org/ontology/wikiPageID> "606"^^<http://www.w3.org/2001/XMLSchema#integer> .

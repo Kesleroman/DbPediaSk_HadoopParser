@@ -1,0 +1,8 @@
+{"namespace": "com.bigdatums.avro",
+  "type": "record",
+  "name": "DbPage",
+  "fields": [
+    {"name": "pageName",  "type": ["string", "null"]},
+    {"name": "id", "type": "int"}
+  ]
+}

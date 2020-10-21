@@ -1,0 +1,5 @@
+<http://sk.dbpedia.org/resource/Václav_Havel> <http://dbpedia.org/ontology/wikiPageID> "610"^^<http://www.w3.org/2001/XMLSchema#integer> .
+<http://sk.dbpedia.org/resource/Taekkyon> <http://dbpedia.org/ontology/wikiPageID> "694"^^<http://www.w3.org/2001/XMLSchema#integer> .
+<http://sk.dbpedia.org/resource/RTFM> <http://dbpedia.org/ontology/wikiPageID> "695"^^<http://www.w3.org/2001/XMLSchema#integer> .
+<http://sk.dbpedia.org/resource/Science_fiction> <http://dbpedia.org/ontology/wikiPageID> "698"^^<http://www.w3.org/2001/XMLSchema#integer> .
+<http://sk.dbpedia.org/resource/Trnava> <http://dbpedia.org/ontology/wikiPageID> "613"^^<http://www.w3.org/2001/XMLSchema#integer> .
