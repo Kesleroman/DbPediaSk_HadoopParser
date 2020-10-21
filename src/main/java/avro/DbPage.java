@@ -3,14 +3,24 @@
  * 
  * DO NOT EDIT DIRECTLY
  */
-package com.bigdatums.avro;  
+package avro;
+
+import org.apache.avro.io.ResolvingDecoder;
+
+import java.io.IOException;
+
 @SuppressWarnings("all")
 @org.apache.avro.specific.AvroGenerated
 public class DbPage extends org.apache.avro.specific.SpecificRecordBase implements org.apache.avro.specific.SpecificRecord {
-  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"DbPage\",\"namespace\":\"com.bigdatums.avro\",\"fields\":[{\"name\":\"pageName\",\"type\":[\"string\",\"null\"]},{\"name\":\"id\",\"type\":\"int\"}]}");
+  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"DbPage\",\"namespace\":\"avro\",\"fields\":[{\"name\":\"pageName\",\"type\":[\"string\",\"null\"]},{\"name\":\"id\",\"type\":\"int\"}]}");
   public static org.apache.avro.Schema getClassSchema() { return SCHEMA$; }
   @Deprecated public java.lang.CharSequence pageName;
   @Deprecated public int id;
+
+  @Override
+  public void customDecode(ResolvingDecoder in) throws IOException {
+    super.customDecode(in);
+  }
 
   /**
    * Default constructor.  Note that this does not initialize fields
@@ -77,18 +87,18 @@ public class DbPage extends org.apache.avro.specific.SpecificRecordBase implemen
   }
 
   /** Creates a new DbPage RecordBuilder */
-  public static com.bigdatums.avro.DbPage.Builder newBuilder() {
-    return new com.bigdatums.avro.DbPage.Builder();
+  public static avro.DbPage.Builder newBuilder() {
+    return new avro.DbPage.Builder();
   }
   
   /** Creates a new DbPage RecordBuilder by copying an existing Builder */
-  public static com.bigdatums.avro.DbPage.Builder newBuilder(com.bigdatums.avro.DbPage.Builder other) {
-    return new com.bigdatums.avro.DbPage.Builder(other);
+  public static avro.DbPage.Builder newBuilder(avro.DbPage.Builder other) {
+    return new avro.DbPage.Builder(other);
   }
   
   /** Creates a new DbPage RecordBuilder by copying an existing DbPage instance */
-  public static com.bigdatums.avro.DbPage.Builder newBuilder(com.bigdatums.avro.DbPage other) {
-    return new com.bigdatums.avro.DbPage.Builder(other);
+  public static avro.DbPage.Builder newBuilder(avro.DbPage other) {
+    return new avro.DbPage.Builder(other);
   }
   
   /**
@@ -102,11 +112,11 @@ public class DbPage extends org.apache.avro.specific.SpecificRecordBase implemen
 
     /** Creates a new Builder */
     private Builder() {
-      super(com.bigdatums.avro.DbPage.SCHEMA$);
+      super(avro.DbPage.SCHEMA$);
     }
     
     /** Creates a Builder by copying an existing Builder */
-    private Builder(com.bigdatums.avro.DbPage.Builder other) {
+    private Builder(avro.DbPage.Builder other) {
       super(other);
       if (isValidValue(fields()[0], other.pageName)) {
         this.pageName = data().deepCopy(fields()[0].schema(), other.pageName);
@@ -119,8 +129,8 @@ public class DbPage extends org.apache.avro.specific.SpecificRecordBase implemen
     }
     
     /** Creates a Builder by copying an existing DbPage instance */
-    private Builder(com.bigdatums.avro.DbPage other) {
-            super(com.bigdatums.avro.DbPage.SCHEMA$);
+    private Builder(avro.DbPage other) {
+            super(avro.DbPage.SCHEMA$);
       if (isValidValue(fields()[0], other.pageName)) {
         this.pageName = data().deepCopy(fields()[0].schema(), other.pageName);
         fieldSetFlags()[0] = true;
@@ -137,7 +147,7 @@ public class DbPage extends org.apache.avro.specific.SpecificRecordBase implemen
     }
     
     /** Sets the value of the 'pageName' field */
-    public com.bigdatums.avro.DbPage.Builder setPageName(java.lang.CharSequence value) {
+    public avro.DbPage.Builder setPageName(java.lang.CharSequence value) {
       validate(fields()[0], value);
       this.pageName = value;
       fieldSetFlags()[0] = true;
@@ -150,7 +160,7 @@ public class DbPage extends org.apache.avro.specific.SpecificRecordBase implemen
     }
     
     /** Clears the value of the 'pageName' field */
-    public com.bigdatums.avro.DbPage.Builder clearPageName() {
+    public avro.DbPage.Builder clearPageName() {
       pageName = null;
       fieldSetFlags()[0] = false;
       return this;
@@ -162,7 +172,7 @@ public class DbPage extends org.apache.avro.specific.SpecificRecordBase implemen
     }
     
     /** Sets the value of the 'id' field */
-    public com.bigdatums.avro.DbPage.Builder setId(int value) {
+    public avro.DbPage.Builder setId(int value) {
       validate(fields()[1], value);
       this.id = value;
       fieldSetFlags()[1] = true;
@@ -175,7 +185,7 @@ public class DbPage extends org.apache.avro.specific.SpecificRecordBase implemen
     }
     
     /** Clears the value of the 'id' field */
-    public com.bigdatums.avro.DbPage.Builder clearId() {
+    public avro.DbPage.Builder clearId() {
       fieldSetFlags()[1] = false;
       return this;
     }

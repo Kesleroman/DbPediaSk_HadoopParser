@@ -2,6 +2,7 @@ import java.io.IOException;
 import java.util.Iterator;
 import java.util.StringTokenizer;
 
+import avro.DbPage;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.IntWritable;
@@ -94,14 +95,12 @@ public class DBPediaSkParser {
 
         int result = job.waitForCompletion(true) ? 0 : 1;
 
-//        parseOutputAndStoreAvro(outputFile);
+        parseOutputAndStoreAvro(outputFile);
 
         System.exit(result);
     }
 
-//    private static void parseOutputAndStoreAvro(Path outputFile){
-//        DbPage dbPage = new DbPage();
-//
-//
-//    }
+    private static void parseOutputAndStoreAvro(Path outputFile){
+        DbPage dbPage = new DbPage();
+    }
 }

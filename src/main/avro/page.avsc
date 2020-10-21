@@ -1,4 +1,5 @@
-{"namespace": "com.bigdatums.avro",
+{
+  "namespace": "avro",
   "type": "record",
   "name": "DbPage",
   "fields": [
