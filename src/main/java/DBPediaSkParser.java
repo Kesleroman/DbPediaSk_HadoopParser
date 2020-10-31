@@ -1,6 +1,8 @@
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.StringTokenizer;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.avro.Schema;
 import org.apache.avro.mapred.AvroKey;
@@ -21,7 +23,6 @@ import org.apache.hadoop.util.ToolRunner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
 public class DBPediaSkParser extends Configured implements Tool {
 
     public static class TokenizerMapper extends Mapper<Object, Text, Text, IntWritable>{
@@ -32,6 +33,7 @@ public class DBPediaSkParser extends Configured implements Tool {
         public void map(Object key, Text value, Context context
         ) throws IOException, InterruptedException {
             StringTokenizer tokenizer = new StringTokenizer(value.toString(), " ");
+            Pattern idPattern = Pattern.compile("\"([0-9]+)\"\\^\\^");
 
             while(tokenizer.hasMoreTokens())
             {
@@ -46,7 +48,13 @@ public class DBPediaSkParser extends Configured implements Tool {
                 String idString = tokenizer.nextToken(); // The third token is id
                 logger.info("Third token: " + idString);
 
-                idString = idString.substring(1, 4); // TODO id parsing
+                Matcher matcher = idPattern.matcher(idString);
+                if(matcher.find())
+                {
+                    idString = matcher.group(1);
+                    logger.info("Matched id: " + idString);
+                }
+
                 int id = Integer.parseInt(idString);
 
                 word.set(page);
