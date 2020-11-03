@@ -7,10 +7,11 @@ package avro;
 @SuppressWarnings("all")
 @org.apache.avro.specific.AvroGenerated
 public class DbPage extends org.apache.avro.specific.SpecificRecordBase implements org.apache.avro.specific.SpecificRecord {
-  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"DbPage\",\"namespace\":\"avro\",\"fields\":[{\"name\":\"id\",\"type\":[\"null\",\"int\"]},{\"name\":\"pageLabel\",\"type\":[\"null\",\"string\"]}]}");
+  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"DbPage\",\"namespace\":\"avro\",\"fields\":[{\"name\":\"id\",\"type\":[\"null\",\"int\"]},{\"name\":\"pageLabel\",\"type\":[\"null\",\"string\"]},{\"name\":\"categories\",\"type\":{\"type\":\"array\",\"items\":\"string\",\"default\":[]}}]}");
   public static org.apache.avro.Schema getClassSchema() { return SCHEMA$; }
   @Deprecated public java.lang.Integer id;
   @Deprecated public java.lang.CharSequence pageLabel;
+  @Deprecated public java.util.List<java.lang.CharSequence> categories;
 
   /**
    * Default constructor.  Note that this does not initialize fields
@@ -22,9 +23,10 @@ public class DbPage extends org.apache.avro.specific.SpecificRecordBase implemen
   /**
    * All-args constructor.
    */
-  public DbPage(java.lang.Integer id, java.lang.CharSequence pageLabel) {
+  public DbPage(java.lang.Integer id, java.lang.CharSequence pageLabel, java.util.List<java.lang.CharSequence> categories) {
     this.id = id;
     this.pageLabel = pageLabel;
+    this.categories = categories;
   }
 
   public org.apache.avro.Schema getSchema() { return SCHEMA$; }
@@ -33,6 +35,7 @@ public class DbPage extends org.apache.avro.specific.SpecificRecordBase implemen
     switch (field$) {
     case 0: return id;
     case 1: return pageLabel;
+    case 2: return categories;
     default: throw new org.apache.avro.AvroRuntimeException("Bad index");
     }
   }
@@ -42,6 +45,7 @@ public class DbPage extends org.apache.avro.specific.SpecificRecordBase implemen
     switch (field$) {
     case 0: id = (java.lang.Integer)value$; break;
     case 1: pageLabel = (java.lang.CharSequence)value$; break;
+    case 2: categories = (java.util.List<java.lang.CharSequence>)value$; break;
     default: throw new org.apache.avro.AvroRuntimeException("Bad index");
     }
   }
@@ -76,6 +80,21 @@ public class DbPage extends org.apache.avro.specific.SpecificRecordBase implemen
     this.pageLabel = value;
   }
 
+  /**
+   * Gets the value of the 'categories' field.
+   */
+  public java.util.List<java.lang.CharSequence> getCategories() {
+    return categories;
+  }
+
+  /**
+   * Sets the value of the 'categories' field.
+   * @param value the value to set.
+   */
+  public void setCategories(java.util.List<java.lang.CharSequence> value) {
+    this.categories = value;
+  }
+
   /** Creates a new DbPage RecordBuilder */
   public static avro.DbPage.Builder newBuilder() {
     return new avro.DbPage.Builder();
@@ -99,6 +118,7 @@ public class DbPage extends org.apache.avro.specific.SpecificRecordBase implemen
 
     private java.lang.Integer id;
     private java.lang.CharSequence pageLabel;
+    private java.util.List<java.lang.CharSequence> categories;
 
     /** Creates a new Builder */
     private Builder() {
@@ -116,6 +136,10 @@ public class DbPage extends org.apache.avro.specific.SpecificRecordBase implemen
         this.pageLabel = data().deepCopy(fields()[1].schema(), other.pageLabel);
         fieldSetFlags()[1] = true;
       }
+      if (isValidValue(fields()[2], other.categories)) {
+        this.categories = data().deepCopy(fields()[2].schema(), other.categories);
+        fieldSetFlags()[2] = true;
+      }
     }
     
     /** Creates a Builder by copying an existing DbPage instance */
@@ -128,6 +152,10 @@ public class DbPage extends org.apache.avro.specific.SpecificRecordBase implemen
       if (isValidValue(fields()[1], other.pageLabel)) {
         this.pageLabel = data().deepCopy(fields()[1].schema(), other.pageLabel);
         fieldSetFlags()[1] = true;
+      }
+      if (isValidValue(fields()[2], other.categories)) {
+        this.categories = data().deepCopy(fields()[2].schema(), other.categories);
+        fieldSetFlags()[2] = true;
       }
     }
 
@@ -181,12 +209,38 @@ public class DbPage extends org.apache.avro.specific.SpecificRecordBase implemen
       return this;
     }
 
+    /** Gets the value of the 'categories' field */
+    public java.util.List<java.lang.CharSequence> getCategories() {
+      return categories;
+    }
+    
+    /** Sets the value of the 'categories' field */
+    public avro.DbPage.Builder setCategories(java.util.List<java.lang.CharSequence> value) {
+      validate(fields()[2], value);
+      this.categories = value;
+      fieldSetFlags()[2] = true;
+      return this; 
+    }
+    
+    /** Checks whether the 'categories' field has been set */
+    public boolean hasCategories() {
+      return fieldSetFlags()[2];
+    }
+    
+    /** Clears the value of the 'categories' field */
+    public avro.DbPage.Builder clearCategories() {
+      categories = null;
+      fieldSetFlags()[2] = false;
+      return this;
+    }
+
     @Override
     public DbPage build() {
       try {
         DbPage record = new DbPage();
         record.id = fieldSetFlags()[0] ? this.id : (java.lang.Integer) defaultValue(fields()[0]);
         record.pageLabel = fieldSetFlags()[1] ? this.pageLabel : (java.lang.CharSequence) defaultValue(fields()[1]);
+        record.categories = fieldSetFlags()[2] ? this.categories : (java.util.List<java.lang.CharSequence>) defaultValue(fields()[2]);
         return record;
       } catch (Exception e) {
         throw new org.apache.avro.AvroRuntimeException(e);

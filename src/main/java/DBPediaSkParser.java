@@ -159,6 +159,8 @@ public class DBPediaSkParser extends Configured implements Tool {
         job.setReducerClass(IdReducer.class);
         AvroJob.setOutputKeySchema(job, Schema.create(Schema.Type.STRING));
         AvroJob.setOutputValueSchema(job, DbPage.getClassSchema());
+        
+        job.setNumReduceTasks(4);
 
         return (job.waitForCompletion(true) ? 0 : 1);
     }

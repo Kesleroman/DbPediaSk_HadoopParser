@@ -4,6 +4,14 @@
   "name": "DbPage",
   "fields": [
     {"name": "id", "type": ["null", "int"]},
-    {"name": "pageLabel",  "type": ["null", "string"]}
+    {"name": "pageLabel",  "type": ["null", "string"]},
+    {
+      "name": "categories",
+      "type": {
+        "type": "array",
+        "items": "string",
+        "default": []
+      }
+    }
   ]
 }
