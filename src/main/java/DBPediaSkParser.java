@@ -1,5 +1,6 @@
 import java.io.IOException;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -27,7 +28,7 @@ public class DBPediaSkParser extends Configured implements Tool {
 
     public enum AttributeType
     {
-        UNKNOWN, ID, LABEL;
+        UNKNOWN, ID, LABEL, CATEGORY
     }
 
     public static class TokenizerMapper extends Mapper<Object, Text, Text, Text>{
@@ -35,6 +36,7 @@ public class DBPediaSkParser extends Configured implements Tool {
         private static Logger logger = LoggerFactory.getLogger(TokenizerMapper.class);
         private static Pattern idPattern = Pattern.compile("\"([0-9]+)\"\\^\\^");
         private static Pattern labelPattern = Pattern.compile("\"(.+)\"@sk");
+        private static Pattern categoryPattern = Pattern.compile("/Kategória:(.+)>");
         private Text returnKey = new Text();
         private Text returnText = new Text();
 
@@ -80,6 +82,8 @@ public class DBPediaSkParser extends Configured implements Tool {
                 return labelPattern.matcher(data);
             else if (dataType.equals("<http://dbpedia.org/ontology/wikiPageID>"))
                 return idPattern.matcher(data);
+            else if (dataType.equals("<http://purl.org/dc/terms/subject>"))
+                return categoryPattern.matcher(data);
 
             return null;
         }
@@ -89,6 +93,8 @@ public class DBPediaSkParser extends Configured implements Tool {
                 return AttributeType.LABEL;
             else if (dataType.equals("<http://dbpedia.org/ontology/wikiPageID>"))
                 return AttributeType.ID;
+            else if (dataType.equals("<http://purl.org/dc/terms/subject>"))
+                return AttributeType.CATEGORY;
 
             return AttributeType.UNKNOWN;
         }
@@ -116,6 +122,8 @@ public class DBPediaSkParser extends Configured implements Tool {
                 String[] tokens = text.split(" ", 2);
                 AttributeType attributeType = AttributeType.valueOf(tokens[0]);
 
+                dbPage.setCategories(new LinkedList<CharSequence>());
+
                 switch (attributeType){
                     case ID:
                         int id = Integer.parseInt(tokens[1]);
@@ -123,6 +131,9 @@ public class DBPediaSkParser extends Configured implements Tool {
                         break;
                     case LABEL:
                         dbPage.setPageLabel(tokens[1]);
+                        break;
+                    case CATEGORY:
+                        dbPage.getCategories().add(tokens[1]);
                         break;
                     case UNKNOWN:
                 }
