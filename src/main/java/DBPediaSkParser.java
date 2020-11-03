@@ -117,12 +117,12 @@ public class DBPediaSkParser extends Configured implements Tool {
 
 //            logger.info("Reducing: " + key);
             DbPage dbPage = new DbPage();
+            dbPage.setCategories(new LinkedList<CharSequence>());
+
             while (itr.hasNext()){
                 String text = itr.next().toString();
                 String[] tokens = text.split(" ", 2);
                 AttributeType attributeType = AttributeType.valueOf(tokens[0]);
-
-                dbPage.setCategories(new LinkedList<CharSequence>());
 
                 switch (attributeType){
                     case ID:
