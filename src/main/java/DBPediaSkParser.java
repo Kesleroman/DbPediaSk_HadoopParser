@@ -4,6 +4,7 @@ import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import avro.DbPage;
 import org.apache.avro.Schema;
 import org.apache.avro.mapred.AvroKey;
 import org.apache.avro.mapred.AvroValue;
@@ -24,19 +25,23 @@ import org.slf4j.LoggerFactory;
 
 public class DBPediaSkParser extends Configured implements Tool {
 
+    public enum AttributeType
+    {
+        UNKNOWN, ID, LABEL;
+    }
+
     public static class TokenizerMapper extends Mapper<Object, Text, Text, Text>{
 
         private static Logger logger = LoggerFactory.getLogger(TokenizerMapper.class);
         private static Pattern idPattern = Pattern.compile("\"([0-9]+)\"\\^\\^");
         private static Pattern labelPattern = Pattern.compile("\"(.+)\"@sk");
         private Text returnKey = new Text();
-        private Text returnValue = new Text();
+        private Text returnText = new Text();
 
         public void map(Object key, Text value, Context context
         ) throws IOException, InterruptedException {
             String valueString = value.toString();
             StringTokenizer tokenizer = new StringTokenizer(valueString, " ");
-
 
             String page = tokenizer.nextToken();
             logger.info("Page name token: " + page);
@@ -60,9 +65,11 @@ public class DBPediaSkParser extends Configured implements Tool {
                 return;
             }
 
+            AttributeType type = getAppropriateType(dataType);
             returnKey.set(page);
-            returnValue.set(matchedData);
-            context.write(returnKey, returnValue);
+            returnText.set(type.toString() + " " + matchedData);
+
+            context.write(returnKey, returnText);
 
             if(!valueString.endsWith("."))
                 logger.warn("There was not a dot in the end!");
@@ -76,9 +83,18 @@ public class DBPediaSkParser extends Configured implements Tool {
 
             return null;
         }
+
+        private AttributeType getAppropriateType(String dataType){
+            if (dataType.equals("<http://www.w3.org/2000/01/rdf-schema#label>"))
+                return AttributeType.LABEL;
+            else if (dataType.equals("<http://dbpedia.org/ontology/wikiPageID>"))
+                return AttributeType.ID;
+
+            return AttributeType.UNKNOWN;
+        }
     }
 
-        public static class IdReducer extends Reducer<Text,Text, AvroKey<CharSequence>, AvroValue<CharSequence>> {
+    public static class IdReducer extends Reducer<Text, Text, AvroKey<CharSequence>, AvroValue<DbPage>> {
 
         private static Logger logger = LoggerFactory.getLogger(IdReducer.class);
 
@@ -94,14 +110,27 @@ public class DBPediaSkParser extends Configured implements Tool {
             }
 
 //            logger.info("Reducing: " + key);
-            StringBuilder resultBuilder = new StringBuilder();
+            DbPage dbPage = new DbPage();
             while (itr.hasNext()){
-                Text text = itr.next();
-                resultBuilder.append(text.toString());
+                String text = itr.next().toString();
+                String[] tokens = text.split(" ", 2);
+                AttributeType attributeType = AttributeType.valueOf(tokens[0]);
+
+                switch (attributeType){
+                    case ID:
+                        int id = Integer.parseInt(tokens[1]);
+                        dbPage.setId(id);
+                        break;
+                    case LABEL:
+                        dbPage.setPageLabel(tokens[1]);
+                        break;
+                    case UNKNOWN:
+                }
             }
 
             AvroKey<CharSequence> avroKey = new AvroKey<CharSequence>(key.toString());
-            AvroValue<CharSequence> avroValue = new AvroValue<CharSequence>(resultBuilder.toString());
+            AvroValue<DbPage> avroValue = new AvroValue<DbPage>(dbPage);
+
             context.write(avroKey, avroValue);
 
             if(itr.hasNext())
@@ -122,13 +151,14 @@ public class DBPediaSkParser extends Configured implements Tool {
         FileOutputFormat.setOutputPath(job, new Path(args[1]));
 
         job.setMapperClass(TokenizerMapper.class);
+
         job.setMapOutputKeyClass(Text.class);
         job.setMapOutputValueClass(Text.class);
 
         job.setOutputFormatClass(AvroKeyValueOutputFormat.class);
         job.setReducerClass(IdReducer.class);
         AvroJob.setOutputKeySchema(job, Schema.create(Schema.Type.STRING));
-        AvroJob.setOutputValueSchema(job, Schema.create(Schema.Type.STRING));
+        AvroJob.setOutputValueSchema(job, DbPage.getClassSchema());
 
         return (job.waitForCompletion(true) ? 0 : 1);
     }

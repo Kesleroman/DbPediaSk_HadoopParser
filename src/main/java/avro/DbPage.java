@@ -3,24 +3,14 @@
  * 
  * DO NOT EDIT DIRECTLY
  */
-package avro;
-
-import org.apache.avro.io.ResolvingDecoder;
-
-import java.io.IOException;
-
+package avro;  
 @SuppressWarnings("all")
 @org.apache.avro.specific.AvroGenerated
 public class DbPage extends org.apache.avro.specific.SpecificRecordBase implements org.apache.avro.specific.SpecificRecord {
-  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"DbPage\",\"namespace\":\"avro\",\"fields\":[{\"name\":\"pageName\",\"type\":[\"string\",\"null\"]},{\"name\":\"id\",\"type\":\"int\"}]}");
+  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"DbPage\",\"namespace\":\"avro\",\"fields\":[{\"name\":\"id\",\"type\":[\"null\",\"int\"]},{\"name\":\"pageLabel\",\"type\":[\"null\",\"string\"]}]}");
   public static org.apache.avro.Schema getClassSchema() { return SCHEMA$; }
-  @Deprecated public java.lang.CharSequence pageName;
-  @Deprecated public int id;
-
-  @Override
-  public void customDecode(ResolvingDecoder in) throws IOException {
-    super.customDecode(in);
-  }
+  @Deprecated public java.lang.Integer id;
+  @Deprecated public java.lang.CharSequence pageLabel;
 
   /**
    * Default constructor.  Note that this does not initialize fields
@@ -32,17 +22,17 @@ public class DbPage extends org.apache.avro.specific.SpecificRecordBase implemen
   /**
    * All-args constructor.
    */
-  public DbPage(java.lang.CharSequence pageName, java.lang.Integer id) {
-    this.pageName = pageName;
+  public DbPage(java.lang.Integer id, java.lang.CharSequence pageLabel) {
     this.id = id;
+    this.pageLabel = pageLabel;
   }
 
   public org.apache.avro.Schema getSchema() { return SCHEMA$; }
   // Used by DatumWriter.  Applications should not call. 
   public java.lang.Object get(int field$) {
     switch (field$) {
-    case 0: return pageName;
-    case 1: return id;
+    case 0: return id;
+    case 1: return pageLabel;
     default: throw new org.apache.avro.AvroRuntimeException("Bad index");
     }
   }
@@ -50,25 +40,10 @@ public class DbPage extends org.apache.avro.specific.SpecificRecordBase implemen
   @SuppressWarnings(value="unchecked")
   public void put(int field$, java.lang.Object value$) {
     switch (field$) {
-    case 0: pageName = (java.lang.CharSequence)value$; break;
-    case 1: id = (java.lang.Integer)value$; break;
+    case 0: id = (java.lang.Integer)value$; break;
+    case 1: pageLabel = (java.lang.CharSequence)value$; break;
     default: throw new org.apache.avro.AvroRuntimeException("Bad index");
     }
-  }
-
-  /**
-   * Gets the value of the 'pageName' field.
-   */
-  public java.lang.CharSequence getPageName() {
-    return pageName;
-  }
-
-  /**
-   * Sets the value of the 'pageName' field.
-   * @param value the value to set.
-   */
-  public void setPageName(java.lang.CharSequence value) {
-    this.pageName = value;
   }
 
   /**
@@ -84,6 +59,21 @@ public class DbPage extends org.apache.avro.specific.SpecificRecordBase implemen
    */
   public void setId(java.lang.Integer value) {
     this.id = value;
+  }
+
+  /**
+   * Gets the value of the 'pageLabel' field.
+   */
+  public java.lang.CharSequence getPageLabel() {
+    return pageLabel;
+  }
+
+  /**
+   * Sets the value of the 'pageLabel' field.
+   * @param value the value to set.
+   */
+  public void setPageLabel(java.lang.CharSequence value) {
+    this.pageLabel = value;
   }
 
   /** Creates a new DbPage RecordBuilder */
@@ -107,8 +97,8 @@ public class DbPage extends org.apache.avro.specific.SpecificRecordBase implemen
   public static class Builder extends org.apache.avro.specific.SpecificRecordBuilderBase<DbPage>
     implements org.apache.avro.data.RecordBuilder<DbPage> {
 
-    private java.lang.CharSequence pageName;
-    private int id;
+    private java.lang.Integer id;
+    private java.lang.CharSequence pageLabel;
 
     /** Creates a new Builder */
     private Builder() {
@@ -118,12 +108,12 @@ public class DbPage extends org.apache.avro.specific.SpecificRecordBase implemen
     /** Creates a Builder by copying an existing Builder */
     private Builder(avro.DbPage.Builder other) {
       super(other);
-      if (isValidValue(fields()[0], other.pageName)) {
-        this.pageName = data().deepCopy(fields()[0].schema(), other.pageName);
+      if (isValidValue(fields()[0], other.id)) {
+        this.id = data().deepCopy(fields()[0].schema(), other.id);
         fieldSetFlags()[0] = true;
       }
-      if (isValidValue(fields()[1], other.id)) {
-        this.id = data().deepCopy(fields()[1].schema(), other.id);
+      if (isValidValue(fields()[1], other.pageLabel)) {
+        this.pageLabel = data().deepCopy(fields()[1].schema(), other.pageLabel);
         fieldSetFlags()[1] = true;
       }
     }
@@ -131,39 +121,14 @@ public class DbPage extends org.apache.avro.specific.SpecificRecordBase implemen
     /** Creates a Builder by copying an existing DbPage instance */
     private Builder(avro.DbPage other) {
             super(avro.DbPage.SCHEMA$);
-      if (isValidValue(fields()[0], other.pageName)) {
-        this.pageName = data().deepCopy(fields()[0].schema(), other.pageName);
+      if (isValidValue(fields()[0], other.id)) {
+        this.id = data().deepCopy(fields()[0].schema(), other.id);
         fieldSetFlags()[0] = true;
       }
-      if (isValidValue(fields()[1], other.id)) {
-        this.id = data().deepCopy(fields()[1].schema(), other.id);
+      if (isValidValue(fields()[1], other.pageLabel)) {
+        this.pageLabel = data().deepCopy(fields()[1].schema(), other.pageLabel);
         fieldSetFlags()[1] = true;
       }
-    }
-
-    /** Gets the value of the 'pageName' field */
-    public java.lang.CharSequence getPageName() {
-      return pageName;
-    }
-    
-    /** Sets the value of the 'pageName' field */
-    public avro.DbPage.Builder setPageName(java.lang.CharSequence value) {
-      validate(fields()[0], value);
-      this.pageName = value;
-      fieldSetFlags()[0] = true;
-      return this; 
-    }
-    
-    /** Checks whether the 'pageName' field has been set */
-    public boolean hasPageName() {
-      return fieldSetFlags()[0];
-    }
-    
-    /** Clears the value of the 'pageName' field */
-    public avro.DbPage.Builder clearPageName() {
-      pageName = null;
-      fieldSetFlags()[0] = false;
-      return this;
     }
 
     /** Gets the value of the 'id' field */
@@ -172,20 +137,46 @@ public class DbPage extends org.apache.avro.specific.SpecificRecordBase implemen
     }
     
     /** Sets the value of the 'id' field */
-    public avro.DbPage.Builder setId(int value) {
-      validate(fields()[1], value);
+    public avro.DbPage.Builder setId(java.lang.Integer value) {
+      validate(fields()[0], value);
       this.id = value;
-      fieldSetFlags()[1] = true;
+      fieldSetFlags()[0] = true;
       return this; 
     }
     
     /** Checks whether the 'id' field has been set */
     public boolean hasId() {
-      return fieldSetFlags()[1];
+      return fieldSetFlags()[0];
     }
     
     /** Clears the value of the 'id' field */
     public avro.DbPage.Builder clearId() {
+      id = null;
+      fieldSetFlags()[0] = false;
+      return this;
+    }
+
+    /** Gets the value of the 'pageLabel' field */
+    public java.lang.CharSequence getPageLabel() {
+      return pageLabel;
+    }
+    
+    /** Sets the value of the 'pageLabel' field */
+    public avro.DbPage.Builder setPageLabel(java.lang.CharSequence value) {
+      validate(fields()[1], value);
+      this.pageLabel = value;
+      fieldSetFlags()[1] = true;
+      return this; 
+    }
+    
+    /** Checks whether the 'pageLabel' field has been set */
+    public boolean hasPageLabel() {
+      return fieldSetFlags()[1];
+    }
+    
+    /** Clears the value of the 'pageLabel' field */
+    public avro.DbPage.Builder clearPageLabel() {
+      pageLabel = null;
       fieldSetFlags()[1] = false;
       return this;
     }
@@ -194,8 +185,8 @@ public class DbPage extends org.apache.avro.specific.SpecificRecordBase implemen
     public DbPage build() {
       try {
         DbPage record = new DbPage();
-        record.pageName = fieldSetFlags()[0] ? this.pageName : (java.lang.CharSequence) defaultValue(fields()[0]);
-        record.id = fieldSetFlags()[1] ? this.id : (java.lang.Integer) defaultValue(fields()[1]);
+        record.id = fieldSetFlags()[0] ? this.id : (java.lang.Integer) defaultValue(fields()[0]);
+        record.pageLabel = fieldSetFlags()[1] ? this.pageLabel : (java.lang.CharSequence) defaultValue(fields()[1]);
         return record;
       } catch (Exception e) {
         throw new org.apache.avro.AvroRuntimeException(e);
