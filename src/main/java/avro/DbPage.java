@@ -7,11 +7,13 @@ package avro;
 @SuppressWarnings("all")
 @org.apache.avro.specific.AvroGenerated
 public class DbPage extends org.apache.avro.specific.SpecificRecordBase implements org.apache.avro.specific.SpecificRecord {
-  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"DbPage\",\"namespace\":\"avro\",\"fields\":[{\"name\":\"id\",\"type\":[\"null\",\"int\"]},{\"name\":\"pageLabel\",\"type\":[\"null\",\"string\"]},{\"name\":\"categories\",\"type\":{\"type\":\"array\",\"items\":\"string\",\"default\":[]}}]}");
+  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"DbPage\",\"namespace\":\"avro\",\"fields\":[{\"name\":\"id\",\"type\":[\"null\",\"int\"]},{\"name\":\"pageLabel\",\"type\":[\"null\",\"string\"]},{\"name\":\"categories\",\"type\":{\"type\":\"array\",\"items\":\"string\",\"default\":[]}},{\"name\":\"links\",\"type\":{\"type\":\"array\",\"items\":\"string\",\"default\":[]}},{\"name\":\"externalLinks\",\"type\":{\"type\":\"array\",\"items\":\"string\",\"default\":[]}}]}");
   public static org.apache.avro.Schema getClassSchema() { return SCHEMA$; }
   @Deprecated public java.lang.Integer id;
   @Deprecated public java.lang.CharSequence pageLabel;
   @Deprecated public java.util.List<java.lang.CharSequence> categories;
+  @Deprecated public java.util.List<java.lang.CharSequence> links;
+  @Deprecated public java.util.List<java.lang.CharSequence> externalLinks;
 
   /**
    * Default constructor.  Note that this does not initialize fields
@@ -23,10 +25,12 @@ public class DbPage extends org.apache.avro.specific.SpecificRecordBase implemen
   /**
    * All-args constructor.
    */
-  public DbPage(java.lang.Integer id, java.lang.CharSequence pageLabel, java.util.List<java.lang.CharSequence> categories) {
+  public DbPage(java.lang.Integer id, java.lang.CharSequence pageLabel, java.util.List<java.lang.CharSequence> categories, java.util.List<java.lang.CharSequence> links, java.util.List<java.lang.CharSequence> externalLinks) {
     this.id = id;
     this.pageLabel = pageLabel;
     this.categories = categories;
+    this.links = links;
+    this.externalLinks = externalLinks;
   }
 
   public org.apache.avro.Schema getSchema() { return SCHEMA$; }
@@ -36,6 +40,8 @@ public class DbPage extends org.apache.avro.specific.SpecificRecordBase implemen
     case 0: return id;
     case 1: return pageLabel;
     case 2: return categories;
+    case 3: return links;
+    case 4: return externalLinks;
     default: throw new org.apache.avro.AvroRuntimeException("Bad index");
     }
   }
@@ -46,6 +52,8 @@ public class DbPage extends org.apache.avro.specific.SpecificRecordBase implemen
     case 0: id = (java.lang.Integer)value$; break;
     case 1: pageLabel = (java.lang.CharSequence)value$; break;
     case 2: categories = (java.util.List<java.lang.CharSequence>)value$; break;
+    case 3: links = (java.util.List<java.lang.CharSequence>)value$; break;
+    case 4: externalLinks = (java.util.List<java.lang.CharSequence>)value$; break;
     default: throw new org.apache.avro.AvroRuntimeException("Bad index");
     }
   }
@@ -95,6 +103,36 @@ public class DbPage extends org.apache.avro.specific.SpecificRecordBase implemen
     this.categories = value;
   }
 
+  /**
+   * Gets the value of the 'links' field.
+   */
+  public java.util.List<java.lang.CharSequence> getLinks() {
+    return links;
+  }
+
+  /**
+   * Sets the value of the 'links' field.
+   * @param value the value to set.
+   */
+  public void setLinks(java.util.List<java.lang.CharSequence> value) {
+    this.links = value;
+  }
+
+  /**
+   * Gets the value of the 'externalLinks' field.
+   */
+  public java.util.List<java.lang.CharSequence> getExternalLinks() {
+    return externalLinks;
+  }
+
+  /**
+   * Sets the value of the 'externalLinks' field.
+   * @param value the value to set.
+   */
+  public void setExternalLinks(java.util.List<java.lang.CharSequence> value) {
+    this.externalLinks = value;
+  }
+
   /** Creates a new DbPage RecordBuilder */
   public static avro.DbPage.Builder newBuilder() {
     return new avro.DbPage.Builder();
@@ -119,6 +157,8 @@ public class DbPage extends org.apache.avro.specific.SpecificRecordBase implemen
     private java.lang.Integer id;
     private java.lang.CharSequence pageLabel;
     private java.util.List<java.lang.CharSequence> categories;
+    private java.util.List<java.lang.CharSequence> links;
+    private java.util.List<java.lang.CharSequence> externalLinks;
 
     /** Creates a new Builder */
     private Builder() {
@@ -140,6 +180,14 @@ public class DbPage extends org.apache.avro.specific.SpecificRecordBase implemen
         this.categories = data().deepCopy(fields()[2].schema(), other.categories);
         fieldSetFlags()[2] = true;
       }
+      if (isValidValue(fields()[3], other.links)) {
+        this.links = data().deepCopy(fields()[3].schema(), other.links);
+        fieldSetFlags()[3] = true;
+      }
+      if (isValidValue(fields()[4], other.externalLinks)) {
+        this.externalLinks = data().deepCopy(fields()[4].schema(), other.externalLinks);
+        fieldSetFlags()[4] = true;
+      }
     }
     
     /** Creates a Builder by copying an existing DbPage instance */
@@ -156,6 +204,14 @@ public class DbPage extends org.apache.avro.specific.SpecificRecordBase implemen
       if (isValidValue(fields()[2], other.categories)) {
         this.categories = data().deepCopy(fields()[2].schema(), other.categories);
         fieldSetFlags()[2] = true;
+      }
+      if (isValidValue(fields()[3], other.links)) {
+        this.links = data().deepCopy(fields()[3].schema(), other.links);
+        fieldSetFlags()[3] = true;
+      }
+      if (isValidValue(fields()[4], other.externalLinks)) {
+        this.externalLinks = data().deepCopy(fields()[4].schema(), other.externalLinks);
+        fieldSetFlags()[4] = true;
       }
     }
 
@@ -234,6 +290,56 @@ public class DbPage extends org.apache.avro.specific.SpecificRecordBase implemen
       return this;
     }
 
+    /** Gets the value of the 'links' field */
+    public java.util.List<java.lang.CharSequence> getLinks() {
+      return links;
+    }
+    
+    /** Sets the value of the 'links' field */
+    public avro.DbPage.Builder setLinks(java.util.List<java.lang.CharSequence> value) {
+      validate(fields()[3], value);
+      this.links = value;
+      fieldSetFlags()[3] = true;
+      return this; 
+    }
+    
+    /** Checks whether the 'links' field has been set */
+    public boolean hasLinks() {
+      return fieldSetFlags()[3];
+    }
+    
+    /** Clears the value of the 'links' field */
+    public avro.DbPage.Builder clearLinks() {
+      links = null;
+      fieldSetFlags()[3] = false;
+      return this;
+    }
+
+    /** Gets the value of the 'externalLinks' field */
+    public java.util.List<java.lang.CharSequence> getExternalLinks() {
+      return externalLinks;
+    }
+    
+    /** Sets the value of the 'externalLinks' field */
+    public avro.DbPage.Builder setExternalLinks(java.util.List<java.lang.CharSequence> value) {
+      validate(fields()[4], value);
+      this.externalLinks = value;
+      fieldSetFlags()[4] = true;
+      return this; 
+    }
+    
+    /** Checks whether the 'externalLinks' field has been set */
+    public boolean hasExternalLinks() {
+      return fieldSetFlags()[4];
+    }
+    
+    /** Clears the value of the 'externalLinks' field */
+    public avro.DbPage.Builder clearExternalLinks() {
+      externalLinks = null;
+      fieldSetFlags()[4] = false;
+      return this;
+    }
+
     @Override
     public DbPage build() {
       try {
@@ -241,6 +347,8 @@ public class DbPage extends org.apache.avro.specific.SpecificRecordBase implemen
         record.id = fieldSetFlags()[0] ? this.id : (java.lang.Integer) defaultValue(fields()[0]);
         record.pageLabel = fieldSetFlags()[1] ? this.pageLabel : (java.lang.CharSequence) defaultValue(fields()[1]);
         record.categories = fieldSetFlags()[2] ? this.categories : (java.util.List<java.lang.CharSequence>) defaultValue(fields()[2]);
+        record.links = fieldSetFlags()[3] ? this.links : (java.util.List<java.lang.CharSequence>) defaultValue(fields()[3]);
+        record.externalLinks = fieldSetFlags()[4] ? this.externalLinks : (java.util.List<java.lang.CharSequence>) defaultValue(fields()[4]);
         return record;
       } catch (Exception e) {
         throw new org.apache.avro.AvroRuntimeException(e);

@@ -12,6 +12,22 @@
         "items": "string",
         "default": []
       }
+    },
+    {
+          "name": "links",
+          "type": {
+            "type": "array",
+            "items": "string",
+            "default": []
+          }
+    },
+    {
+          "name": "externalLinks",
+          "type": {
+            "type": "array",
+            "items": "string",
+            "default": []
+          }
     }
   ]
 }

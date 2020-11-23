@@ -28,7 +28,7 @@ public class DBPediaSkParser extends Configured implements Tool {
 
     public enum AttributeType
     {
-        UNKNOWN, ID, LABEL, CATEGORY
+        UNKNOWN, ID, LABEL, CATEGORY, LINK, EXTERNAL_LINK;
     }
 
     public static class TokenizerMapper extends Mapper<Object, Text, Text, Text>{
@@ -37,6 +37,8 @@ public class DBPediaSkParser extends Configured implements Tool {
         private static Pattern idPattern = Pattern.compile("\"([0-9]+)\"\\^\\^");
         private static Pattern labelPattern = Pattern.compile("\"(.+)\"@sk");
         private static Pattern categoryPattern = Pattern.compile("/Kategória:(.+)>");
+        private static Pattern linkPattern = Pattern.compile("<http://dbpedia\\.org/ontology/wikiPage.+> <(.+)> \\.");
+
         private Text returnKey = new Text();
         private Text returnText = new Text();
 
@@ -51,7 +53,7 @@ public class DBPediaSkParser extends Configured implements Tool {
             if (!tokenizer.hasMoreTokens()) return;
             String dataType = tokenizer.nextToken();
 
-            Matcher matcher = getAppropriateMatcher(dataType, value.toString());
+            Matcher matcher = getAppropriateMatcher(dataType, valueString);
             if (matcher == null) {
                 logger.error("Unknown data type: " + dataType);
                 return;
@@ -84,6 +86,10 @@ public class DBPediaSkParser extends Configured implements Tool {
                 return idPattern.matcher(data);
             else if (dataType.equals("<http://purl.org/dc/terms/subject>"))
                 return categoryPattern.matcher(data);
+            else if (dataType.equals("<http://dbpedia.org/ontology/wikiPageWikiLink>"))
+                return linkPattern.matcher(data);
+            else if (dataType.equals("<http://dbpedia.org/ontology/wikiPageExternalLink>"))
+                return linkPattern.matcher(data);
 
             return null;
         }
@@ -95,6 +101,10 @@ public class DBPediaSkParser extends Configured implements Tool {
                 return AttributeType.ID;
             else if (dataType.equals("<http://purl.org/dc/terms/subject>"))
                 return AttributeType.CATEGORY;
+            else if (dataType.equals("<http://dbpedia.org/ontology/wikiPageWikiLink>"))
+                return AttributeType.LINK;
+            else if (dataType.equals("<http://dbpedia.org/ontology/wikiPageExternalLink>"))
+                return AttributeType.EXTERNAL_LINK;
 
             return AttributeType.UNKNOWN;
         }
@@ -115,9 +125,7 @@ public class DBPediaSkParser extends Configured implements Tool {
                 return;
             }
 
-//            logger.info("Reducing: " + key);
-            DbPage dbPage = new DbPage();
-            dbPage.setCategories(new LinkedList<CharSequence>());
+            DbPage dbPage = createDbPage();
 
             while (itr.hasNext()){
                 String text = itr.next().toString();
@@ -135,6 +143,12 @@ public class DBPediaSkParser extends Configured implements Tool {
                     case CATEGORY:
                         dbPage.getCategories().add(tokens[1]);
                         break;
+                    case LINK:
+                        dbPage.getLinks().add(tokens[1]);
+                        break;
+                    case EXTERNAL_LINK:
+                        dbPage.getExternalLinks().add(tokens[1]);
+                        break;
                     case UNKNOWN:
                 }
             }
@@ -146,6 +160,14 @@ public class DBPediaSkParser extends Configured implements Tool {
 
             if(itr.hasNext())
                 logger.warn("There are several values for the key " + key);
+        }
+
+        private DbPage createDbPage(){
+            DbPage dbPage = new DbPage();
+            dbPage.setCategories(new LinkedList<CharSequence>());
+            dbPage.setLinks(new LinkedList<CharSequence>());
+            dbPage.setExternalLinks(new LinkedList<CharSequence>());
+            return dbPage;
         }
     }
 
